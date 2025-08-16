@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.io.Serializable;
 
-public abstract sealed class Account implements Cloneable 
+public abstract sealed class Account implements Serializable, Cloneable 
     permits SavingsAccount, CurrentAccount {
+    
+    private static final long serialVersionUID = 1L;
     
     public static final double MIN_BALANCE = 1000.0;
     public static final String BANK_CODE = "LORD";
@@ -31,7 +34,8 @@ public abstract sealed class Account implements Cloneable
         private BankRules() {}
     }
     
-    public class DebitCard {
+    public static class DebitCard implements Serializable {
+        private static final long serialVersionUID = 1L;
         private final String cardNumber;
         private final LocalDate expiryDate;
         private final int cvv;

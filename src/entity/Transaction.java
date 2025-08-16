@@ -3,8 +3,11 @@ package entity;
 import entity.enums.TransactionType;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
+import java.io.Serializable;
 
-public final class Transaction {
+public final class Transaction implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String transactionId;
     private final String accountNumber;
     private final TransactionType type;

@@ -269,7 +269,7 @@ public class AccountService {
                                  double amount, String description) {
         String transactionId = UUID.randomUUID().toString();
         Transaction transaction = new Transaction(transactionId, accountNumber, type, amount);
-        accountRepository.recordTransaction(accountNumber, transaction);
+        accountRepository.addTransaction(transaction);
     }
     
     public double closeAccount(String accountNumber) {
@@ -284,7 +284,7 @@ public class AccountService {
         recordTransaction(accountNumber, TransactionType.CLOSING_BALANCE, 
                          finalBalance, "Account closed");
         
-        accountRepository.deleteByAccountNumber(accountNumber);
+        accountRepository.delete(accountNumber);
         
         return finalBalance;
     }

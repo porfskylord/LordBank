@@ -94,7 +94,7 @@ public class CustomerService {
     
 
     public boolean deleteCustomer(String customerId) {
-        return customerRepository.deleteById(customerId);
+        return customerRepository.delete(customerId);
     }
     
 

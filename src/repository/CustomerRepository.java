@@ -1,17 +1,29 @@
 package repository;
 
 import entity.Customer;
+import util.FileUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-
 public class CustomerRepository {
-    private final Map<String, Customer> customers = new ConcurrentHashMap<>();
+    private static final String CUSTOMERS_FILE = "customers.dat";
+    private Map<String, Customer> customers;
     
     private static volatile CustomerRepository instance;
     
     private CustomerRepository() {
+        loadData();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void loadData() {
+        Map<String, Customer> loadedCustomers = FileUtil.loadFromFile(CUSTOMERS_FILE, new ConcurrentHashMap<String, Customer>());
+        this.customers = new ConcurrentHashMap<>(loadedCustomers);
+    }
+    
+    private void saveData() {
+        FileUtil.saveToFile(CUSTOMERS_FILE, new HashMap<>(customers));
     }
     
 
@@ -32,6 +44,7 @@ public class CustomerRepository {
             throw new IllegalArgumentException("Customer cannot be null");
         }
         customers.put(customer.getCustomerId(), customer);
+        saveData();
         return customer;
     }
     
@@ -62,8 +75,15 @@ public class CustomerRepository {
     }
     
 
-    public boolean deleteById(String customerId) {
-        return customers.remove(customerId) != null;
+    public boolean delete(String customerId) {
+        if (customerId == null || customerId.trim().isEmpty()) {
+            return false;
+        }
+        boolean removed = customers.remove(customerId) != null;
+        if (removed) {
+            saveData();
+        }
+        return removed;
     }
     
 

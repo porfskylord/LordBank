@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Customer extends Person {
+import java.io.Serializable;
+
+public class Customer extends Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String customerId;
     private String email;
     private String phoneNumber;

@@ -4,18 +4,47 @@ import entity.Account;
 import entity.SavingsAccount;
 import entity.CurrentAccount;
 import entity.Transaction;
+import util.FileUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-
 public class AccountRepository {
-    private final Map<String, Account> accounts = new ConcurrentHashMap<>();
-    private final Map<String, List<Transaction>> transactions = new ConcurrentHashMap<>();
+    private static final String ACCOUNTS_FILE = "accounts.dat";
+    private static final String TRANSACTIONS_FILE = "transactions.dat";
+    
+    private Map<String, Account> accounts;
+    private Map<String, List<Transaction>> transactions;
     
     private static volatile AccountRepository instance;
     
     private AccountRepository() {
+        loadData();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void loadData() {
+        Map<String, Account> loadedAccounts = FileUtil.loadFromFile(ACCOUNTS_FILE, new ConcurrentHashMap<String, Account>());
+        this.accounts = new ConcurrentHashMap<>(loadedAccounts);
+        
+        Map<String, List<Transaction>> loadedTransactions =
+            FileUtil.loadFromFile(TRANSACTIONS_FILE, new ConcurrentHashMap<String, List<Transaction>>());
+        this.transactions = new ConcurrentHashMap<>();
+        for (Map.Entry<String, List<Transaction>> entry : loadedTransactions.entrySet()) {
+            this.transactions.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+    }
+    
+    private void saveAccounts() {
+        FileUtil.saveToFile(ACCOUNTS_FILE, new HashMap<>(accounts));
+    }
+    
+    private void saveTransactions() {
+        Map<String, List<Transaction>> transactionsToSave = new HashMap<>();
+        for (Map.Entry<String, List<Transaction>> entry : transactions.entrySet()) {
+            transactionsToSave.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+        FileUtil.saveToFile(TRANSACTIONS_FILE, transactionsToSave);
     }
     
 
@@ -36,6 +65,7 @@ public class AccountRepository {
             throw new IllegalArgumentException("Account cannot be null");
         }
         accounts.put(account.getAccountNumber(), account);
+        saveAccounts();
         return account;
     }
     
@@ -52,16 +82,18 @@ public class AccountRepository {
     }
     
 
-    public void recordTransaction(String accountNumber, Transaction transaction) {
-        if (accountNumber == null || transaction == null) {
-            throw new IllegalArgumentException("Account number and transaction cannot be null");
+    public void addTransaction(Transaction transaction) {
+        if (transaction == null) {
+            throw new IllegalArgumentException("Transaction cannot be null");
         }
+        String accountNumber = transaction.getAccountNumber();
         transactions.computeIfAbsent(accountNumber, k -> new ArrayList<>()).add(transaction);
+        saveTransactions();
     }
     
 
     public List<Transaction> getTransactions(String accountNumber) {
-        return transactions.getOrDefault(accountNumber, Collections.emptyList());
+        return new ArrayList<>(transactions.getOrDefault(accountNumber, Collections.emptyList()));
     }
     
 
@@ -70,8 +102,18 @@ public class AccountRepository {
     }
     
 
-    public boolean deleteByAccountNumber(String accountNumber) {
-        return accounts.remove(accountNumber) != null;
+    public boolean delete(String accountNumber) {
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            return false;
+        }
+        boolean removed = accounts.remove(accountNumber) != null;
+        if (removed) {
+            saveAccounts();
+            if (transactions.remove(accountNumber) != null) {
+                saveTransactions();
+            }
+        }
+        return removed;
     }
     
 

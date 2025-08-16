@@ -3,7 +3,10 @@ package entity;
 import entity.enums.AccountType;
 import entity.enums.TransactionType;
 
-public final class SavingsAccount extends Account {
+import java.io.Serializable;
+
+public final class SavingsAccount extends Account implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static final double INTEREST_RATE = 0.04;
     private static final double MIN_BALANCE = 1000.0;
 

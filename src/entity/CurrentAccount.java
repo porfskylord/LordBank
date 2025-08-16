@@ -4,7 +4,10 @@ import entity.enums.AccountType;
 
 import static entity.Account.BankRules.OVERDRAFT_LIMIT;
 
-public final class CurrentAccount extends Account {
+import java.io.Serializable;
+
+public final class CurrentAccount extends Account implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double overdraftLimit = 10000.0;
     private static final double MIN_BALANCE = 5000.0;
     private static final double OVERDRAFT_INTEREST_RATE = 0.15;
