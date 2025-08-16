@@ -4,86 +4,82 @@
 
 [![Java](https://img.shields.io/badge/Java-17%2B-007396?logo=java&logoColor=white)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/yourusername/LordBank/actions)
-[![Coverage](https://img.shields.io/badge/coverage-90%25-green.svg)](https://github.com/yourusername/LordBank/actions)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/LordBank/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/porfskylord/LordBank/)
 
-A modern, robust, and feature-rich banking application built with Java 17+ that provides comprehensive banking solutions with a clean, object-oriented design.
+A robust banking application built with Java 17+ that provides essential banking operations with a clean, object-oriented design.
 
 </div>
 
 ## ✨ Features
 
 ### 🏛️ Account Management
-- **Multiple Account Types**
+- **Account Types**
   - 💰 **Savings Account**: Earn interest on your balance
-  - 💳 **Current Account**: With overdraft facility and checkbook
-  - 🔄 **Joint Accounts**: Shared accounts with multiple owners
+  - 💳 **Current Account**: With overdraft facility
 
 - **Account Operations**
-  - 🆕 Open new accounts with custom configurations
-  - 🚪 Close accounts with balance settlement
-  - 📊 View detailed account statements
-  - 🔍 Search and filter accounts
-  - 📅 View transaction history with date range filters
+  - 🆕 Open new accounts
+  - 🚪 Close accounts
+  - 📊 View account details
+  - 🔍 List all accounts
+  - 📈 Apply monthly interest
 
 ### 👥 Customer Management
-- 👤 Customer registration with KYC details
-- 📝 Update personal information
-- 🔍 Advanced customer search
-- 📊 Customer portfolio overview
-- 📂 Document management
+- 👤 Customer registration
+- 📝 Update customer information
+- 🔍 View customer details
+- 📋 List all customers
 
 ### 💸 Transaction System
-- 💰 Deposits (Cash/Check/Transfer)
-- 💳 Withdrawals (ATM/Branch/Online)
-- 🔄 Fund Transfers (Internal/External)
-- 💱 Currency exchange
-- ⏱️ Scheduled/Recurring payments
-- 🔄 Standing instructions
+- 💰 Deposits
+- 💳 Withdrawals
+- 🔄 Fund Transfers
 
 ### 📈 Interest & Charges
 - 🏦 Savings account interest calculation
-- 💰 Fixed deposit options
-- ⚠️ Overdraft interest
-- 💸 Transaction fees and charges
-- 📊 Interest rate management
+- ⚠️ Overdraft interest for current accounts
 
 ### 🔒 Security
-- 🔐 Role-based access control
-- 📝 Audit logging
-- 🚨 Suspicious activity monitoring
-- 🔄 Session management
-- 🔒 Data encryption at rest and in transit
+- 🔐 Simple authentication
+- 📝 Basic audit logging
 
-### 📱 User Interface
-- 🖥️ Console-based interface
-- 📱 Responsive design (for future web version)
-- 🎨 Theming support
-- 🌍 Multi-language support
-- ♿ Accessibility features
+### 🖥️ User Interface
+- Console-based interface
+- Intuitive menu system
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 - Java Development Kit (JDK) 17 or higher
-- Maven 3.6.0 or higher
-- Git (for version control)
+- Git (for version control, optional)
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/LordBank.git
-cd LordBank
+1. **Clone the repository** (or download the source code):
+   ```bash
+   git clone https://github.com/porfskylord/LordBank.git
+   cd LordBank
+   ```
 
-# Build the project
-mvn clean install
+2. **Compile the application**:
+   ```bash
+   javac -d bin -sourcepath src src/Main.java
+   ```
 
-# Run the application
-mvn exec:java -Dexec.mainClass="app_ui.AppUi"
-```
+3. **Run the application**:
+   ```bash
+   java -cp bin Main
+   ```
+   
+   Or use the provided `run.bat` script on Windows:
+   ```
+   run.bat
+   ```
+
+### Default Login Credentials
+- **Username**: admin
+- **Password**: admin
 
 ## 🏗️ System Architecture
 
@@ -91,14 +87,11 @@ mvn exec:java -Dexec.mainClass="app_ui.AppUi"
 
 ```mermaid
 graph TD
-    A[User Interface] -->|Commands| B[BankingService]
-    B -->|Uses| C[AccountService]
-    B -->|Uses| D[CustomerService]
-    C -->|Manages| E[Account Repository]
-    D -->|Manages| F[Customer Repository]
-    E -->|Stores| G[Accounts]
-    F -->|Stores| H[Customers]
-    C -->|Processes| I[Transactions]
+    A[AppUi] -->|Uses| B[BankingService]
+    B -->|Manages| C[AccountService]
+    B -->|Manages| D[CustomerService]
+    C -->|Uses| E[AccountRepository]
+    D -->|Uses| F[CustomerRepository]
 ```
 
 ### Core Components
@@ -110,94 +103,86 @@ graph TD
 - `Customer`
 - `Transaction`
 - `AuditLog`
-- `DebitCard`
 - Enums (`AccountType`, `TransactionType`, `Gender`)
 
 #### 2. Repository Layer
-- `AccountRepository` - Manages account data with thread-safe operations
-- `CustomerRepository` - Handles customer data persistence
+- `AccountRepository` - Manages account data
+- `CustomerRepository` - Handles customer data
 
 #### 3. Service Layer
-- `AccountService` - Core account operations and business logic
-- `CustomerService` - Customer management operations
-- `TransactionService` - Transaction processing and validation
-- `InterestService` - Interest calculation and application
-- `ReportService` - Reporting and analytics
+- `BankingService` - Main service orchestrator
+- `AccountService` - Account operations
+- `CustomerService` - Customer management
 
 #### 4. UI Layer
 - `AppUi` - Console-based user interface
-- `MenuSystem` - Menu navigation and input handling
-- `DisplayUtil` - Formatting and display utilities
 
 ## 📚 Documentation
 
 ### Account Types
 
 #### Savings Account
-- **Minimum Balance**: $1,000.00
-- **Interest Rate**: 2.5% per annum (compounded monthly)
+- **Minimum Balance**: ₹1,000.00
+- **Interest Rate**: 2.5% per annum
 - **Features**:
-  - Interest calculation on daily balance
+  - Interest calculation on balance
   - Monthly interest credit
-  - No checkbook facility
-  - Limited monthly transactions
+  - Basic transaction capabilities
 
 #### Current Account
-- **Minimum Balance**: $5,000.00
-- **Overdraft Limit**: Up to $10,000.00
-- **Interest Rate**: 15% per annum on overdraft
+- **Minimum Balance**: ₹5,000.00
+- **Overdraft Facility**: Available
 - **Features**:
-  - No limit on transactions
-  - Checkbook facility
-  - Overdraft facility
-  - Higher transaction limits
+  - Overdraft capability
+  - Standard transaction support
 
 ### Transaction Types
 
-| Type | Description | Fee |
-|------|-------------|-----|
-| DEPOSIT | Cash/Check deposit | Free |
-| WITHDRAWAL | Cash withdrawal | $2.00 (after 4 per month) |
-| TRANSFER | Inter-account transfer | $1.00 (external) / Free (internal) |
-| BILL_PAYMENT | Utility bill payment | $0.50 |
-| INTEREST | Interest credit | Free |
-| FEE | Service charges | Varies |
+| Type | Description |
+|------|-------------|
+| DEPOSIT | Cash deposit |
+| WITHDRAWAL | Cash withdrawal |
+| TRANSFER | Inter-account transfer |
+| INTEREST | Interest credit |
+| FEE | Service charges |
 
-## 🛠️ Development
-
-### Project Structure
+## 🛠️ Project Structure
 
 ```
 src/
-├── main/
-│   ├── java/
-│   │   ├── app_ui/          # User interface components
-│   │   ├── entity/          # Domain models
-│   │   ├── repository/      # Data access layer
-│   │   ├── service/         # Business logic
-│   │   └── util/            # Utility classes
-│   └── resources/           # Configuration and resources
-└── test/                    # Test cases
+├── app_ui/          # User interface components
+├── auth/            # Authentication
+├── entity/          # Domain models
+│   └── enums/       # Enumerations
+├── interfaces/      # Interfaces
+└── util/            # Utility classes
 ```
 
 ### Building the Project
 
-```bash
-# Compile and run tests
-mvn clean test
+1. **Compile the application**:
+   ```bash
+   javac -d bin -sourcepath src src/Main.java
+   ```
 
-# Generate Javadoc
-mvn javadoc:javadoc
+2. **Create executable JAR**:
+   ```bash
+   jar cvfm LordBank.jar MANIFEST.MF -C bin .
+   ```
 
-# Create a JAR file
-mvn clean package
-```
+3. **Run the JAR file**:
+   ```bash
+   java -jar LordBank.jar
+   ```
 
-### Testing
+## 📝 License
 
-Run the test suite with:
-```bash
-mvn test
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ for educational purposes
+- Inspired by real-world banking systems
 ```
 
 ## 📊 Screenshots
@@ -214,15 +199,7 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🎉 Acknowledgments
-
-- Built with ❤️ using Java
-- Inspired by modern banking systems
-- Thanks to all contributors who have helped shape this project
+Please ensure your code follows the existing style and includes appropriate documentation.
 
 ---
 

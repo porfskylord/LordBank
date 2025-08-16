@@ -418,7 +418,7 @@ public class AppUi {
                 return;
             }
             
-            AccountType[] accountTypes = AccountType.values();
+            AccountType[] accountTypes = {AccountType.SAVINGS, AccountType.CURRENT};
             for (int i = 0; i < accountTypes.length; i++) {
                 System.out.printf("%d. %s%n", i + 1, accountTypes[i]);
             }
@@ -427,10 +427,7 @@ public class AppUi {
                 1, accountTypes.length);
             AccountType accountType = accountTypes[typeChoice - 1];
             
-            double initialDeposit = 0;
-            if (accountType != AccountType.CURRENT) {
-                initialDeposit = getDoubleInput("Initial deposit amount: ", 0, Double.MAX_VALUE);
-            }
+            double initialDeposit = getDoubleInput("Initial deposit amount: ", 0, Double.MAX_VALUE);
             
             double interestRate = 0;
             if (accountType == AccountType.SAVINGS) {
