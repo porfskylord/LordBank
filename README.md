@@ -227,7 +227,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  Made with ❤️ by Your Name | [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fyourusername)](https://twitter.com/yourusername)
+  Made with ❤️ by Azad
 </div>
 
 ## Features
@@ -381,5 +381,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contributing
 Contributions are welcome! Please follow the standard fork and pull request workflow.
 
-## License
-[Specify License]
+
