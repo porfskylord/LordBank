@@ -30,7 +30,6 @@ public class AppUi {
             === Welcome to Lord Bank ===
             
             Plz Enter User and Password
-           
             """;
 
     public void showAppUi(){
