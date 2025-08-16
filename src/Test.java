@@ -1,6 +1,3 @@
-import enitiy.Person;
-import enitiy.enums.Gender;
-
 public class Test {
     public static void main(String[] args) {
 
