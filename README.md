@@ -39,13 +39,31 @@ A robust banking application built with Java 17+ that provides essential banking
 - 🏦 Savings account interest calculation
 - ⚠️ Overdraft interest for current accounts
 
-### 🔒 Security
+### 🔒 Security & Data Persistence
 - 🔐 Simple authentication
 - 📝 Basic audit logging
+- 💾 **Automatic Data Persistence**
+  - All data is automatically saved to disk
+  - Data persists between application restarts
+  - Stored in the `data` directory
+  - Automatic backup of customer and account information
 
 ### 🖥️ User Interface
 - Console-based interface
 - Intuitive menu system
+
+## 💾 Data Storage
+
+All application data is automatically saved to the `data` directory in the application's root folder. The following files are created and managed:
+
+- `customers.dat` - Stores all customer information
+- `accounts.dat` - Stores all account details
+- `transactions.dat` - Records all transactions
+
+### Data Backup
+- The application automatically creates backups of your data
+- Data is saved after each modification
+- No manual saving required
 
 ## 🚀 Getting Started
 
